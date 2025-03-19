@@ -1,7 +1,9 @@
 package com.example.sw_planet_api.domain;
 
+import static com.example.sw_planet_api.commun.PlanetConstants.INVALID_PLANET;
 import static com.example.sw_planet_api.commun.PlanetConstants.PLANET;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -27,4 +29,11 @@ public class PlanetServiceTest {
 
         assertThat(sut).isEqualTo(PLANET);
     }
+
+    @Test
+    public void createPlanet_WithInvalidData_ThowsException(){
+        when(planetRepository.save(INVALID_PLANET)).thenThrow(RuntimeException.class);
+        assertThatThrownBy(() -> planetService.create(INVALID_PLANET)).isInstanceOf(RuntimeException.class);
+    }
+    
 }
